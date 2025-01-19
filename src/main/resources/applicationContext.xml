@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans>
+    <!-- 此 bean 標籤是對應 servletPath 中的名稱-->
+    <bean id = "customerDAO" class = "com.atsimoncc.myssm.basedao.impl.CustomerDAOImpl"></bean>
+    <bean id = "customerService" class = "com.atsimoncc.service.impl.CustomerImpl">
+        <property name="customerDAO" ref="customerDAO"/>
+    </bean>
+    <bean id = "customer" class = "com.atsimoncc.controllers.CustomerController">
+        <property name="customerService" ref="customerService"/>
+    </bean>
+</beans>

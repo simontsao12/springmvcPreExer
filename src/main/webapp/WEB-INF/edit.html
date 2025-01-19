@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Hello! Thymeleaf</h1>
+    <h2>會員修改</h2>
+    <form th:action="@{customer.do}" method="post" th:object="${customer}">
+        <input type="hidden" name="operate" th:value="update"/>
+        <input type="hidden" name="cid" th:value="*{getId()}"/>
+        <input type="hidden" name="birth" th:value="*{getBirth()}"/>
+        <table>
+            <tr>
+                <th>姓名</th>
+                <!-- <td><input type="text" name="name" th:value="${customer.getName()}"></td>-->
+                <td><input type="text" name="name" th:value="*{getName()}"></td>
+            </tr>
+            <tr>
+                <th>信箱</th>
+                <td><input type="text" name="email" th:value="*{getEmail()}"></td>
+            </tr>
+            <tr>
+                <th><input type="submit" value="修改"></th>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

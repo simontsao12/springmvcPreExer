@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script language="JavaScript" src="js/index.js"></script>
+</head>
+<body>
+    <h1>Hello! Thymeleaf</h1>
+    <h2>簡易會員管理系統</h2>
+    <div>
+        <form th:action="@{/customer.do}" method="post">
+            <input type="hidden" name="oper" value="search" />
+            請輸入查詢關鍵字: <input type="text" name="keyword" th:value="${session.keyword}"/>
+            <input type="submit" value="查詢">
+        </form>
+        <a th:href="@{/customer.do(operate='addView')}">新增會員</a>
+    </div>
+    <table>
+        <tr>
+            <th>姓名</th>
+            <th>信箱</th>
+            <th>生日</th>
+            <th>刪除</th>
+        </tr>
+        <tr th:if="${#lists.isEmpty(session.customerList)}">
+            <td>尚未有任何相關會員</td>
+        </tr>
+        <tr th:unless="${#lists.isEmpty(session.customerList)}" th:each="customer : ${session.customerList}">
+            <!-- <td ><a th:text="${customer.getName()}" th:href="@{'/edit.do?' + ${customer.getId()}}"></a></td> -->
+            <td ><a th:text="${customer.getName()}" th:href="@{/customer.do(cid=${customer.getId()}, operate='edit')}" ></a></td>
+            <td th:text="${customer.getEmail()}"></td>
+            <td th:text="${customer.getBirth()}"></td>
+            <td><input type="button" value="delete" th:onclick="|delCust(${customer.getId()})|"/></td>
+        </tr>
+    </table>
+    <div>
+        <input type="button" value="第一頁" th:onclick="|page(1)|" th:disabled="${session.pageNo==1}">
+        <input type="button" value="上一頁" th:onclick="|page(${session.pageNo > 1 ? session.pageNo-1 : 1})|" th:disabled="${session.pageNo==1}">
+        <input type="button" value="下一頁" th:onclick="|page(${session.pageNo < session.pageCount ?session.pageNo+1 : session.pageCount})|" th:disabled="${session.pageNo==session.pageCount}">
+        <input type="button" value="最後頁" th:onclick="|page(${session.pageCount})|" th:disabled="${session.pageNo==session.pageCount}">
+    </div>
+</body>
+</html>
